@@ -1,0 +1,30 @@
+version: "2"
+services:
+  # mongodb: 
+  #   image: mongo
+  #   container_name: mongodb
+  #   environment: 
+  #     - MONGO_DATA_DIR=/data/db
+  #     - MONGO_LOG_DIR=/dev/null
+  #   volumes: 
+  #     - ./data/db:/data/db
+  #   ports: 
+  #     - 27017:27017    
+  tasks:
+    build: 
+      context: .
+      dockerfile: Dockerfile
+    environment:
+      - NODE_ENV=development
+      - PORT=80
+      - MONGO_URI=mongodb://localhost:27017
+    ports:
+      - 8003:80
+      - 9229:9229
+    volumes:
+      - ./build:/var/www/build
+    # links: 
+    #   - mongodb
+    # depends_on:
+    #   - mongodb    
+    command: ./node_modules/.bin/nodemon ./build/App.js
